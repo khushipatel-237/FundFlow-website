@@ -1,0 +1,192 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover"><title>FundFlow — Smart Expense Tracker</title>
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+*{box-sizing:border-box;margin:0}
+:root{--bg:#f3f7f6;--c:#fff;--tx:#0b1f3a;--mu:#64748b;--bd:#e3e9ef;--em:#10b981;--rd:#ef4444;--am:#f59e0b;padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+[data-t=dark]{--bg:#071225;--c:#0e2140;--tx:#eaf1fb;--mu:#8fa3bf;--bd:#1b3358}
+body{font-family:Poppins,system-ui,sans-serif;background:var(--bg);color:var(--tx);font-size:14px}
+.app{display:flex;min-height:100vh}
+.sb{width:220px;background:linear-gradient(180deg,#0b1f3a,#123a63);color:#fff;padding:16px 10px;position:sticky;top:0;height:100vh;transition:.3s;flex-shrink:0}
+.sb.c{width:70px}.sb.c .l{display:none}
+.nv{display:flex;gap:12px;align-items:center;padding:11px 14px;border-radius:12px;color:#cbd8ea;cursor:pointer;border:0;background:none;width:100%;font:inherit;margin-top:4px;transition:.2s}
+.nv:hover{background:#ffffff1a;transform:translateX(3px)}.nv.a{background:var(--em);color:#fff}
+main{flex:1;padding:22px;min-width:0;max-width:1200px;margin:0 auto}
+.g{display:grid;gap:16px}.g4{grid-template-columns:repeat(auto-fit,minmax(210px,1fr))}.g2{grid-template-columns:repeat(auto-fit,minmax(300px,1fr))}
+.card{background:var(--c);border:1px solid var(--bd);border-radius:18px;padding:18px;box-shadow:0 4px 16px #0b1f3a0f;transition:.2s}.card:hover{transform:translateY(-2px)}
+.hero{background:linear-gradient(135deg,#0b1f3a,#0e8f68);color:#fff;border:0}
+h1{font-size:24px}h3{font-size:15px;margin-bottom:12px}.mu{color:var(--mu);font-size:12px}.big{font-size:26px;font-weight:700}
+.row{display:flex;align-items:center;gap:10px}.sp{justify-content:space-between}.wr{flex-wrap:wrap}
+input,select,textarea{font:inherit;padding:9px 12px;border:1px solid var(--bd);border-radius:10px;background:var(--c);color:var(--tx);width:100%}
+.btn{font:inherit;background:var(--em);color:#fff;border:0;border-radius:12px;padding:9px 16px;cursor:pointer;font-weight:600;transition:.2s}.btn:hover{filter:brightness(1.1);transform:translateY(-1px)}
+.btn.o{background:none;color:var(--tx);border:1px solid var(--bd)}.btn.r{background:var(--rd)}.btn.s{padding:5px 9px;font-size:12px}
+.bar{height:9px;border-radius:9px;background:var(--bd);overflow:hidden;margin:6px 0}.bar i{display:block;height:100%;background:var(--em);transition:width .6s}
+.it{display:flex;align-items:center;gap:12px;padding:10px 0;border-bottom:1px solid var(--bd)}.it:last-child{border:0}
+.ic{width:38px;height:38px;border-radius:12px;background:#10b98122;display:grid;place-items:center;font-size:18px;flex-shrink:0}
+.pos{color:var(--em);font-weight:600}.neg{color:var(--rd);font-weight:600}
+.bg{position:fixed;inset:0;background:#0008;display:grid;place-items:center;z-index:50;padding:14px}
+.md{background:var(--c);border-radius:20px;padding:22px;width:100%;max-width:440px;max-height:90vh;overflow:auto;animation:pop .25s}
+@keyframes pop{from{transform:scale(.9);opacity:0}}
+.fl{display:block;margin-bottom:10px}.fl span{font-size:12px;color:var(--mu)}
+.er{color:var(--rd);font-size:12px;margin-bottom:8px}
+.ts{position:fixed;right:16px;bottom:80px;z-index:60;display:grid;gap:8px}.ts div{background:#0b1f3a;color:#fff;padding:10px 16px;border-radius:12px;animation:pop .3s;border-left:4px solid var(--em)}
+.fab{position:fixed;right:18px;bottom:18px;width:54px;height:54px;border-radius:50%;font-size:26px;z-index:40;box-shadow:0 8px 20px #10b98166;padding:0}
+.bn{display:none}
+.em{text-align:center;padding:26px;color:var(--mu)}
+.cf{position:fixed;top:-30px;font-size:24px;animation:fall 3s linear forwards;z-index:70}
+@keyframes fall{to{transform:translateY(110vh) rotate(540deg)}}
+.tg{display:flex;gap:4px;background:var(--bd);padding:3px;border-radius:12px}.tg button{flex:1;border:0;background:none;color:var(--tx);padding:6px 12px;border-radius:9px;cursor:pointer;font:inherit}.tg .a{background:var(--c);font-weight:600}
+@media(max-width:800px){.sb{display:none}main{padding:14px 12px 90px}.bn{display:flex;position:fixed;bottom:0;left:0;right:0;background:#0b1f3a;z-index:30;overflow-x:auto;padding:6px 6px calc(6px + env(safe-area-inset-bottom,0px))}.bn button{flex:1;min-width:58px;background:none;border:0;color:#cbd8ea;font-size:20px;padding:6px;border-radius:10px}.bn .a{background:var(--em);color:#fff}.fab{bottom:76px}}
+@media print{.sb,.bn,.np,.fab{display:none!important}body{background:#fff}}
+</style></head><body><div id="root"></div>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.3.1/umd/react.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.3.1/umd/react-dom.production.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script type="text/babel">
+const {useState,useEffect,useMemo,useRef}=React;
+const CATS={Food:'🍔',Transportation:'🚌',Shopping:'🛍️',Education:'📚',Entertainment:'🎮',Bills:'💡',Health:'💊',Travel:'✈️',Subscriptions:'📺',Rent:'🏠',Salary:'💼','Freelance Income':'💻',Gifts:'🎁',Other:'✨'};
+const INC=['Salary','Freelance Income','Gifts','Other'],EXP=Object.keys(CATS).filter(c=>!['Salary','Freelance Income'].includes(c)),PAY=['Cash','UPI','Debit Card','Credit Card','Bank Transfer'],WANTS=['Entertainment','Shopping'];
+const PAL=['#10b981','#0b1f3a','#34d399','#3b82f6','#f59e0b','#a78bfa','#f472b6','#94a3b8','#14b8a6','#6ee7b7','#1e3a8a','#fb923c','#64748b','#059669'];
+const iso=d=>new Date(d-d.getTimezoneOffset()*6e4).toISOString().slice(0,10),today=iso(new Date());
+const addDays=(s,n)=>{const d=new Date(s+'T00:00');d.setDate(d.getDate()+n);return iso(d)};
+const adv=(s,f)=>{const d=new Date(s+'T00:00');f==='weekly'?d.setDate(d.getDate()+7):f==='yearly'?d.setFullYear(d.getFullYear()+1):d.setMonth(d.getMonth()+1);return iso(d)};
+const mk=n=>{const a=[],d=new Date();d.setDate(1);for(let i=n-1;i>=0;i--){const x=new Date(d.getFullYear(),d.getMonth()-i,1);a.push(iso(x).slice(0,7))}return a};
+const T=today.slice(0,7),P=mk(2)[0];
+const sum=(a,t)=>a.filter(x=>x.type===t).reduce((s,x)=>s+x.amount,0);
+const byCat=a=>{const o={};a.filter(x=>x.type==='expense').forEach(x=>o[x.category]=(o[x.category]||0)+x.amount);return o};
+// ---- storage layer (swap for a database/API later) ----
+const KEY='fundflow:v1',DB={load(){try{return JSON.parse(localStorage.getItem(KEY))}catch(e){return null}},save(s){try{localStorage.setItem(KEY,JSON.stringify(s))}catch(e){}}};
+function seed(){const tx=[];let n=1;const n0=new Date();
+const add=(mo,day,title,amount,type,category,method)=>{const d=new Date(n0.getFullYear(),n0.getMonth()-mo,day);if(d>n0)return;tx.push({id:'s'+n++,title,amount,type,category,method,date:iso(d),note:''})};
+for(let mo=0;mo<3;mo++){add(mo,1,'Monthly pocket money',25000,'income','Salary','Bank Transfer');add(mo,6,'Freelance design gig',mo==1?6500:4500,'income','Freelance Income','UPI');add(mo,2,'Hostel rent',8000,'expense','Rent','Bank Transfer');add(mo,3,'Netflix + Spotify',649,'expense','Subscriptions','Credit Card');add(mo,4,'Wi-Fi bill',499,'expense','Bills','UPI');
+[[5,'Canteen lunch',mo==0?1100:850],[10,'Pizza with friends',mo==0?1400:700],[15,'Groceries',mo==0?1600:1300],[20,'Chai & snacks',mo==0?560:480],[24,'Dinner out',mo==0?900:600]].forEach(([d,t,a])=>add(mo,d,t,a,'expense','Food','UPI'));
+add(mo,8,'Metro card recharge',600,'expense','Transportation','UPI');add(mo,18,'Auto rides',mo==0?450:700,'expense','Transportation','Cash');add(mo,12,'Online course',mo==1?2999:0||999,'expense','Education','Debit Card');add(mo,14,'Movie night',mo==0?800:500,'expense','Entertainment','UPI');add(mo,21,'Sneakers',mo==0?2400:1800,'expense','Shopping','Credit Card');add(mo,9,'Pharmacy',350,'expense','Health','Cash')}
+return{tx,budgets:{total:22000,cat:{Food:5000,Transportation:1800,Shopping:2500,Entertainment:1500}},goals:[{id:'g1',name:'New laptop 💻',target:60000,saved:22000,deadline:addDays(today,150),desc:'For college projects'},{id:'g2',name:'Goa trip 🏖️',target:15000,saved:6500,deadline:addDays(today,90),desc:''},{id:'g3',name:'Emergency fund',target:20000,saved:12000,deadline:addDays(today,240),desc:''}],
+rec:[{id:'r1',name:'Hostel rent',amount:8000,freq:'monthly',due:addDays(today,5),paused:false},{id:'r2',name:'Netflix + Spotify',amount:649,freq:'monthly',due:addDays(today,3),paused:false},{id:'r3',name:'Gym membership',amount:3000,freq:'yearly',due:addDays(today,60),paused:false},{id:'r4',name:'Wi-Fi bill',amount:499,freq:'monthly',due:addDays(today,9),paused:false}],
+prefs:{theme:matchMedia('(prefers-color-scheme:dark)').matches?'dark':'light',cur:'INR',loc:'en-IN',open:12000,sb:true,demo:true}}}
+const Ctx=React.createContext(),use=()=>React.useContext(Ctx);
+function Cv({type,data,options}){const r=useRef(),c=useRef(),t=document.documentElement.dataset.t;useEffect(()=>{Chart.defaults.color=t==='dark'?'#8fa3bf':'#64748b';c.current=new Chart(r.current,{type,data,options:{responsive:true,maintainAspectRatio:false,...options}});return()=>c.current.destroy()},[JSON.stringify(data),type,t]);return <div style={{height:240}}><canvas ref={r}/></div>}
+const Empty=({i,t,b})=><div className="em"><div style={{fontSize:34}}>{i}</div><p>{t}</p>{b}</div>;
+function Modal({title,children}){const{setModal}=use();return <div className="bg" onClick={e=>e.target===e.currentTarget&&setModal(null)}><div className="md"><h3>{title}</h3>{children}</div></div>}
+function Form({title,init,fields,onSave,ok='Save'}){const{setModal}=use();const[v,setV]=useState(init),[er,setEr]=useState('');
+const sub=e=>{e.preventDefault();const r=onSave(v);r?setEr(r):setModal(null)};
+return <Modal title={title}><form onSubmit={sub}>{fields(v).map(f=><label key={f.k} className="fl"><span>{f.l}</span>{f.o?<select value={v[f.k]} onChange={e=>setV({...v,[f.k]:e.target.value})}>{f.o.map(o=><option key={o}>{o}</option>)}</select>:f.t==='ta'?<textarea rows="2" value={v[f.k]} onChange={e=>setV({...v,[f.k]:e.target.value})}/>:<input type={f.t||'text'} step="any" value={v[f.k]} onChange={e=>setV({...v,[f.k]:e.target.value})}/>}</label>)}
+{er&&<div className="er">⚠️ {er}</div>}<div className="row" style={{justifyContent:'flex-end'}}><button type="button" className="btn o" onClick={()=>setModal(null)}>Cancel</button><button className="btn">{ok}</button></div></form></Modal>}
+const amtErr=a=>!(+a>0)||!isFinite(+a)?'Enter an amount greater than 0.':'';
+function App(){
+const[S,setS]=useState(()=>DB.load()||seed()),[pg,setPg]=useState(location.hash.slice(1)||'dash'),[modal,setModal]=useState(null),[ts,setTs]=useState([]),[cf,setCf]=useState(false);
+useEffect(()=>DB.save(S),[S]);document.documentElement.dataset.t=S.prefs.theme;
+const go=p=>{setPg(p);location.hash=p;scrollTo(0,0)};
+const toast=m=>{const id=Math.random();setTs(t=>[...t,{id,m}]);setTimeout(()=>setTs(t=>t.filter(x=>x.id!==id)),2600)};
+const ask=(msg,fn)=>setModal({k:'c',msg,fn});
+const money=n=>new Intl.NumberFormat(S.prefs.loc,{style:'currency',currency:S.prefs.cur,maximumFractionDigits:0}).format(n);
+const dt=s=>new Date(s+'T00:00').toLocaleDateString(S.prefs.loc,{day:'numeric',month:'short',year:'numeric'});
+const up=f=>setS(s=>f(s)),pf=o=>up(s=>({...s,prefs:{...s.prefs,...o}}));
+const K=useMemo(()=>{const cur=S.tx.filter(x=>x.date.slice(0,7)===T),prv=S.tx.filter(x=>x.date.slice(0,7)===P);
+const inc=sum(cur,'income'),exp=sum(cur,'expense'),pe=sum(prv,'expense'),cs=byCat(cur),ps=byCat(prv);
+const bal=S.prefs.open+sum(S.tx,'income')-sum(S.tx,'expense');
+const rows=[{name:'Overall monthly limit',icon:'🎯',limit:S.budgets.total,spent:exp},...Object.entries(S.budgets.cat).map(([c,l])=>({name:c,icon:CATS[c],limit:l,spent:cs[c]||0}))].filter(r=>r.limit>0);
+const up30=S.rec.filter(r=>!r.paused&&r.due<=addDays(today,30)).reduce((s,r)=>s+r.amount,0);
+return{cur,prv,inc,exp,pe,cs,ps,bal,sav:inc-exp,chg:pe?(exp-pe)/pe*100:null,rows,up30}},[S]);
+const X={S,K,up,pf,setS,go,money,dt,toast,ask,setModal,cf:()=>{setCf(true);setTimeout(()=>setCf(false),3200)}};
+const NAV=[['dash','Dashboard','🏠'],['tx','Transactions','💸'],['bud','Budgets','🎯'],['goal','Savings Goals','🐷'],['an','Analytics','📊'],['rec','Recurring','🔁'],['set','Settings','⚙️']];
+const Pg={dash:Dash,tx:Txs,bud:Budgets,goal:Goals,an:Analytics,rec:Recur,set:Settings}[pg]||Dash;
+return <Ctx.Provider value={X}><div className="app">
+<aside className={'sb '+(S.prefs.sb?'':'c')}><div className="row" style={{padding:'6px 10px 14px'}}><span style={{fontSize:24}}>💧</span><b className="l" style={{fontSize:18}}>FundFlow</b></div>
+{NAV.map(([k,l,i])=><button key={k} className={'nv '+(pg===k?'a':'')} onClick={()=>go(k)}><span>{i}</span><span className="l">{l}</span></button>)}
+<button className="nv" style={{marginTop:14}} onClick={()=>pf({sb:!S.prefs.sb})}><span>{S.prefs.sb?'◀':'▶'}</span><span className="l">Collapse</span></button></aside>
+<main><div className="row sp wr np" style={{marginBottom:18}}><div><h1>{NAV.find(n=>n[0]===pg)?.[1]||'Dashboard'}</h1><div className="mu">Your data is saved only in this browser (not linked to any bank).</div></div>
+<div className="row"><button className="btn o" onClick={()=>pf({theme:S.prefs.theme==='dark'?'light':'dark'})}>{S.prefs.theme==='dark'?'☀️':'🌙'}</button><button className="btn" onClick={()=>setModal({k:'tx'})}>+ Add transaction</button></div></div>
+<Pg/></main>
+<nav className="bn">{NAV.map(([k,l,i])=><button key={k} className={pg===k?'a':''} onClick={()=>go(k)} aria-label={l}>{i}</button>)}</nav>
+<button className="btn fab np" onClick={()=>setModal({k:'tx'})} aria-label="Quick add">+</button>
+<div className="ts">{ts.map(t=><div key={t.id}>{t.m}</div>)}</div>
+{cf&&Array.from({length:36},(_,i)=><span key={i} className="cf" style={{left:Math.random()*100+'%',animationDelay:Math.random()*.8+'s'}}>{['🎉','✨','💚','🪙'][i%4]}</span>)}
+{modal?.k==='tx'&&<TxForm t={modal.t}/>}
+{modal?.k==='c'&&<Modal title="Are you sure?"><p style={{marginBottom:16}}>{modal.msg}</p><div className="row" style={{justifyContent:'flex-end'}}><button className="btn o" onClick={()=>setModal(null)}>Cancel</button><button className="btn r" onClick={()=>{modal.fn();setModal(null)}}>Yes, continue</button></div></Modal>}
+{modal?.k==='form'&&<Form {...modal.p}/>}
+{modal?.k==='exp'&&<Modal title={modal.name}><p className="mu" style={{marginBottom:8}}>If your browser blocks the download, copy the text below.</p><textarea readOnly rows="8" value={modal.text} onFocus={e=>e.target.select()}/><div className="row" style={{justifyContent:'flex-end',marginTop:10}}><button className="btn o" onClick={()=>setModal(null)}>Close</button><button className="btn" onClick={()=>{const a=document.createElement('a');a.href=URL.createObjectURL(new Blob([modal.text],{type:modal.mime}));a.download=modal.name;a.click();toast('Download started 📥')}}>Download</button></div></Modal>}
+</div></Ctx.Provider>}
+function TxForm({t}){const{up,toast}=use();const e=!!t;
+return <Form title={e?'Edit transaction':'Add transaction'} ok={e?'Update':'Add'} init={t?{...t,amount:String(t.amount)}:{type:'expense',title:'',amount:'',date:today,category:'Food',method:'UPI',note:''}}
+fields={v=>[{k:'type',l:'Type',o:['expense','income']},{k:'title',l:'Title'},{k:'amount',l:'Amount',t:'number'},{k:'date',l:'Date',t:'date'},{k:'category',l:'Category',o:v.type==='income'?INC:EXP},{k:'method',l:'Payment method',o:PAY},{k:'note',l:'Notes (optional)',t:'ta'}]}
+onSave={v=>{if(!v.title.trim())return'Please enter a title.';const a=amtErr(v.amount);if(a)return a;if(!v.date)return'Pick a date.';const L=v.type==='income'?INC:EXP,r={...v,title:v.title.trim(),amount:+(+v.amount).toFixed(2),category:L.includes(v.category)?v.category:L[0],id:t?.id||'t'+Date.now()};
+up(s=>({...s,tx:e?s.tx.map(x=>x.id===r.id?r:x):[r,...s.tx]}));toast(e?'Transaction updated ✅':'Transaction added 🎉')}}/>}
+const Bud=({r})=>{const{money}=use(),p=r.spent/r.limit*100,col=p>=100?'var(--rd)':p>=80?'var(--am)':'var(--em)';
+return <div style={{marginBottom:12}}><div className="row sp"><span>{r.icon} {r.name}</span><span className="mu">{money(r.spent)} / {money(r.limit)}</span></div><div className="bar"><i style={{width:Math.min(p,100)+'%',background:col}}/></div><div className="mu" style={{color:p>=80?col:undefined}}>{p>=100?`⚠️ Over by ${money(r.spent-r.limit)}`:p>=80?`🟡 ${Math.round(p)}% used — nearly there`:`${Math.round(p)}% used · ${money(r.limit-r.spent)} left`}</div></div>}
+const TxRow=({t,act})=>{const{money,dt,setModal,ask,up,toast}=use();return <div className="it"><div className="ic">{CATS[t.category]}</div><div style={{flex:1,minWidth:0}}><div style={{fontWeight:500}}>{t.title}</div><div className="mu">{t.category} · {t.method} · {dt(t.date)}</div></div><div className={t.type==='income'?'pos':'neg'}>{t.type==='income'?'+':'−'}{money(t.amount)}</div>
+{act&&<div className="row" style={{gap:4}}><button className="btn o s" onClick={()=>setModal({k:'tx',t})}>✏️</button><button className="btn o s" onClick={()=>ask(`Delete “${t.title}”?`,()=>{up(s=>({...s,tx:s.tx.filter(x=>x.id!==t.id)}));toast('Transaction deleted 🗑️')})}>🗑️</button></div>}</div>}
+function Dash(){const{S,K,money,go,setModal}=use();
+const ms=mk(6),mo=ms.map(k=>S.tx.filter(x=>x.date.slice(0,7)===k)),cats=Object.entries(K.cs).sort((a,b)=>b[1]-a[1]);
+const wantsC=WANTS.reduce((s,c)=>s+(K.cs[c]||0),0),wantsP=WANTS.reduce((s,c)=>s+(K.ps[c]||0),0),goal=wantsP*.9;
+const upc=S.rec.filter(r=>!r.paused).sort((a,b)=>a.due.localeCompare(b.due)).slice(0,4);
+return <div className="g">
+<div className="g g4"><div className="card hero"><div className="mu" style={{color:'#b7f0dc'}}>Total balance</div><div className="big">{money(K.bal)}</div><div style={{fontSize:12}}>Hey there 👋 keep flowing!</div></div>
+<div className="card"><div className="mu">Income this month</div><div className="big pos">{money(K.inc)}</div></div>
+<div className="card"><div className="mu">Expenses this month</div><div className="big neg">{money(K.exp)}</div><div className="mu">{K.chg===null?'No data last month':`${K.chg>0?'▲':'▼'} ${Math.abs(K.chg).toFixed(1)}% vs last month`}</div></div>
+<div className="card"><div className="mu">Savings this month</div><div className={'big '+(K.sav>=0?'pos':'neg')}>{money(K.sav)}</div></div></div>
+<div className="g g2"><div className="card"><h3>Income vs spending (6 months)</h3><Cv type="bar" data={{labels:ms.map(k=>k.slice(2)),datasets:[{label:'Income',data:mo.map(a=>sum(a,'income')),backgroundColor:'#10b981',borderRadius:6},{label:'Expenses',data:mo.map(a=>sum(a,'expense')),backgroundColor:'#0b1f3a',borderRadius:6}]}}/></div>
+<div className="card"><h3>Spending by category</h3>{cats.length?<Cv type="doughnut" data={{labels:cats.map(c=>c[0]),datasets:[{data:cats.map(c=>c[1]),backgroundColor:PAL,borderWidth:0}]}} options={{cutout:'62%',plugins:{legend:{position:'right',labels:{boxWidth:10}}}}}/>:<Empty i="🍩" t="No expenses this month yet."/>}</div></div>
+<div className="g g2"><div className="card"><div className="row sp"><h3>Recent transactions</h3><button className="btn o s" onClick={()=>go('tx')}>View all</button></div>{S.tx.length?[...S.tx].sort((a,b)=>b.date.localeCompare(a.date)).slice(0,6).map(t=><TxRow key={t.id} t={t}/>):<Empty i="💸" t="No transactions yet. Tap + to add your first one!"/>}</div>
+<div className="g"><div className="card"><div className="row sp"><h3>Budget progress</h3><button className="btn o s" onClick={()=>go('bud')}>Manage</button></div>{K.rows.length?K.rows.slice(0,4).map(r=><Bud key={r.name} r={r}/>):<Empty i="🎯" t="Set a budget to track it here."/>}</div>
+<div className="card"><h3>Upcoming reminders 🔔</h3>{upc.length?upc.map(r=><div key={r.id} className="row sp it"><span>{r.name}<div className="mu">Due {S.prefs.loc&&new Date(r.due+'T00:00').toLocaleDateString(S.prefs.loc,{day:'numeric',month:'short'})}</div></span><b>{money(r.amount)}</b></div>):<Empty i="🔁" t="No reminders yet."/>}</div>
+<div className="card"><h3>🏆 Challenge: spend 10% less on wants</h3>{wantsP?<><div className="mu">Entertainment + Shopping: {money(wantsC)} of {money(goal)} target (last month {money(wantsP)})</div><div className="bar"><i style={{width:Math.min(wantsC/goal*100,100)+'%',background:wantsC>goal?'var(--rd)':'var(--em)'}}/></div><div>{wantsC<=goal?'On track — you’re beating the challenge! 💪':'Over the target this month. Try a no-spend weekend!'}</div></>:<Empty i="🏆" t="Needs last month’s Entertainment/Shopping data."/>}</div></div></div></div>}
+function Txs(){const{S,money,setModal,go}=use();const[f,setF]=useState({q:'',type:'all',cat:'all',pay:'all',from:'',to:'',sort:'new'});const u=(k,v)=>setF({...f,[k]:v});
+const L=S.tx.filter(t=>t.title.toLowerCase().includes(f.q.toLowerCase())&&(f.type==='all'||t.type===f.type)&&(f.cat==='all'||t.category===f.cat)&&(f.pay==='all'||t.method===f.pay)&&(!f.from||t.date>=f.from)&&(!f.to||t.date<=f.to)).sort((a,b)=>f.sort==='new'?b.date.localeCompare(a.date):f.sort==='old'?a.date.localeCompare(b.date):f.sort==='hi'?b.amount-a.amount:a.amount-b.amount);
+const csv=()=>exportFile(setModal,'fundflow-transactions.csv',['Date,Title,Type,Category,Method,Amount,Notes',...L.map(t=>[t.date,t.title,t.type,t.category,t.method,t.amount,t.note].map(v=>`"${String(v??'').replace(/"/g,'""')}"`).join(','))].join('\n'),'text/csv');
+const S2=(k,o,l)=><select value={f[k]} onChange={e=>u(k,e.target.value)} aria-label={l}>{o.map(x=><option key={x[0]} value={x[0]}>{x[1]}</option>)}</select>;
+return <div className="card"><div className="g g4" style={{marginBottom:14}}><input placeholder="🔍 Search by name" value={f.q} onChange={e=>u('q',e.target.value)}/>{S2('type',[['all','All types'],['income','Income'],['expense','Expense']],'Type')}{S2('cat',[['all','All categories'],...Object.keys(CATS).map(c=>[c,c])],'Category')}{S2('pay',[['all','All payment methods'],...PAY.map(c=>[c,c])],'Method')}<input type="date" value={f.from} onChange={e=>u('from',e.target.value)} aria-label="From"/><input type="date" value={f.to} onChange={e=>u('to',e.target.value)} aria-label="To"/>{S2('sort',[['new','Newest'],['old','Oldest'],['hi','Highest amount'],['lo','Lowest amount']],'Sort')}<button className="btn o" onClick={csv}>⬇️ CSV</button></div>
+<div className="mu" style={{marginBottom:6}}>{L.length} transactions · net {money(sum(L,'income')-sum(L,'expense'))}</div>
+{L.length?L.map(t=><TxRow key={t.id} t={t} act/>):<Empty i="🔎" t={S.tx.length?'No transactions match these filters.':'No transactions yet — add one to get started!'} b={<button className="btn" style={{marginTop:10}} onClick={()=>S.tx.length?setF({q:'',type:'all',cat:'all',pay:'all',from:'',to:'',sort:'new'}):setModal({k:'tx'})}>{S.tx.length?'Clear filters':'+ Add transaction'}</button>}/>}</div>}
+function exportFile(setModal,name,text,mime){setModal({k:'exp',name,text,mime})}
+function Budgets(){const{S,K,up,toast,money}=use();const[c,setC]=useState('Food'),[a,setA]=useState('');
+const setT=v=>up(s=>({...s,budgets:{...s.budgets,total:Math.max(0,+v||0)}}));
+return <div className="g g2"><div className="card"><h3>Monthly spending limit</h3><input type="number" min="0" value={S.budgets.total||''} placeholder="e.g. 20000" onChange={e=>setT(e.target.value)}/><div className="mu" style={{margin:'8px 0 14px'}}>Spent so far this month: {money(K.exp)}</div>
+<h3>Add a category budget</h3><div className="row"><select value={c} onChange={e=>setC(e.target.value)}>{EXP.map(x=><option key={x}>{x}</option>)}</select><input type="number" min="1" placeholder="₹ limit" value={a} onChange={e=>setA(e.target.value)}/><button className="btn" onClick={()=>{if(amtErr(a))return toast('Enter a limit above 0 ⚠️');up(s=>({...s,budgets:{...s.budgets,cat:{...s.budgets.cat,[c]:+a}}}));setA('');toast('Budget saved 🎯')}}>Set</button></div>
+<div style={{marginTop:14}}>{Object.entries(S.budgets.cat).map(([k,v])=><div key={k} className="row" style={{marginTop:6}}><span style={{width:150}}>{CATS[k]} {k}</span><input type="number" min="1" value={v} onChange={e=>up(s=>({...s,budgets:{...s.budgets,cat:{...s.budgets.cat,[k]:+e.target.value}}}))}/><button className="btn o s" onClick={()=>up(s=>{const{[k]:_,...r}=s.budgets.cat;return{...s,budgets:{...s.budgets,cat:r}}})}>✕</button></div>)}</div></div>
+<div className="card"><h3>This month’s progress</h3>{K.rows.length?K.rows.map(r=><Bud key={r.name} r={r}/>):<Empty i="🎯" t="Set a monthly limit to see progress."/>}</div></div>}
+function Goals(){const{S,up,toast,money,dt,ask,setModal,cf}=use();
+const form=g=>setModal({k:'form',p:{title:g?'Edit goal':'New savings goal',init:g?{...g,target:String(g.target)}:{name:'',target:'',deadline:addDays(today,90),desc:''},fields:()=>[{k:'name',l:'Goal name'},{k:'target',l:'Target amount',t:'number'},{k:'deadline',l:'Deadline',t:'date'},{k:'desc',l:'Description (optional)',t:'ta'}],
+onSave:v=>{if(!v.name.trim())return'Give your goal a name.';const a=amtErr(v.target);if(a)return a;if(!v.deadline)return'Pick a deadline.';const r={...v,name:v.name.trim(),target:+v.target,saved:g?.saved||0,id:g?.id||'g'+Date.now()};up(s=>({...s,goals:g?s.goals.map(x=>x.id===g.id?r:x):[...s.goals,r]}));toast('Goal saved 🐷')}}});
+const addM=g=>setModal({k:'form',p:{title:'Add money to '+g.name,ok:'Add',init:{amt:''},fields:()=>[{k:'amt',l:'Amount',t:'number'}],onSave:v=>{const a=amtErr(v.amt);if(a)return a;const n=g.saved+ +v.amt;up(s=>({...s,goals:s.goals.map(x=>x.id===g.id?{...x,saved:n}:x)}));if(n>=g.target&&g.saved<g.target){cf();toast('🎉 Goal achieved! Congrats!')}else toast('Money added 💰')}}});
+return <div className="g"><div><button className="btn" onClick={()=>form()}>+ New goal</button></div>{S.goals.length?<div className="g g2">{S.goals.map(g=>{const p=Math.min(g.saved/g.target*100,100);return <div key={g.id} className="card"><div className="row sp"><h3 style={{margin:0}}>{g.name} {p>=100&&'🏆'}</h3><span className="mu">by {dt(g.deadline)}</span></div>{g.desc&&<div className="mu">{g.desc}</div>}<div className="bar" style={{height:14,margin:'12px 0'}}><i style={{width:p+'%'}}/></div><div className="row sp"><b>{money(g.saved)}</b><span className="mu">{Math.round(p)}% of {money(g.target)}</span></div><div className="mu">{p>=100?'Goal reached! 🎉':money(g.target-g.saved)+' to go'}</div><div className="row" style={{marginTop:12}}><button className="btn s" onClick={()=>addM(g)}>+ Add money</button><button className="btn o s" onClick={()=>form(g)}>Edit</button><button className="btn o s" onClick={()=>ask(`Delete goal “${g.name}”?`,()=>{up(s=>({...s,goals:s.goals.filter(x=>x.id!==g.id)}));toast('Goal deleted')})}>Delete</button></div></div>})}</div>:<Empty i="🐷" t="No goals yet. Dream big — create your first!"/>}</div>}
+function Analytics(){const{S,K,money,toast}=use();const[per,setPer]=useState('M');
+const bk=per==='D'?Array.from({length:14},(_,i)=>{const d=addDays(today,i-13);return[d.slice(5),x=>x===d]}):per==='W'?Array.from({length:8},(_,i)=>{const lo=addDays(today,-7*(7-i)-6),hi=addDays(today,-7*(7-i));return['W'+(i+1),x=>x>=lo&&x<=hi]}):per==='M'?mk(6).map(k=>[k.slice(2),x=>x.slice(0,7)===k]):[2,1,0].map(i=>{const k=String(+today.slice(0,4)-i);return[k,x=>x.slice(0,4)===k]});
+const vals=t=>bk.map(([l,p])=>sum(S.tx.filter(x=>p(x.date)),t)),ex=vals('expense'),inn=vals('income'),lab=bk.map(b=>b[0]);
+const all=[...new Set([...Object.keys(K.cs),...Object.keys(K.ps)])],top=Object.entries(K.cs).sort((a,b)=>b[1]-a[1]).slice(0,5),day=+today.slice(8);
+const ins=[];if(K.prv.length&&K.cur.length>=3){all.map(c=>[c,K.cs[c]||0,K.ps[c]||0]).filter(([c,a,b])=>b>0&&Math.abs(a-b)/b>=.1).sort((x,y)=>Math.abs(y[1]-y[2])-Math.abs(x[1]-x[2])).slice(0,3).forEach(([c,a,b])=>ins.push([a>b?'📈':'📉',`You spent ${Math.round(Math.abs(a-b)/b*100)}% ${a>b?'more':'less'} on ${c.toLowerCase()} this month than last month.`]));
+if(top[0])ins.push(['🥇',`${top[0][0]} is your biggest expense: ${Math.round(top[0][1]/K.exp*100)}% of this month’s spending.`]);if(K.inc>0)ins.push([K.sav>=0?'🌱':'🚨',K.sav>=0?`You’re saving ${Math.round(K.sav/K.inc*100)}% of your income this month.`:`You’ve spent ${money(-K.sav)} more than you earned this month.`]);K.rows.filter(r=>r.spent>r.limit).forEach(r=>ins.push(['⚠️',`${r.name} budget is exceeded by ${money(r.spent-r.limit)}.`]))}
+const sv=mk(6).map(k=>{const a=S.tx.filter(x=>x.date.slice(0,7)===k);return sum(a,'income')-sum(a,'expense')});
+const rep=()=>window.print();
+return <div className="g"><div className="tg np">{[['D','Daily'],['W','Weekly'],['M','Monthly'],['Y','Yearly']].map(([k,l])=><button key={k} className={per===k?'a':''} onClick={()=>setPer(k)}>{l}</button>)}</div>
+<div className="g g2"><div className="card"><h3>Income vs expenses</h3><Cv type="bar" data={{labels:lab,datasets:[{label:'Income',data:inn,backgroundColor:'#10b981',borderRadius:5},{label:'Expenses',data:ex,backgroundColor:'#0b1f3a',borderRadius:5}]}}/></div>
+<div className="card"><h3>Monthly savings trend</h3><Cv type="line" data={{labels:mk(6).map(k=>k.slice(2)),datasets:[{label:'Savings',data:sv,borderColor:'#10b981',backgroundColor:'#10b98133',fill:true,tension:.35}]}}/></div>
+<div className="card"><h3>Category: this vs last month</h3><Cv type="bar" data={{labels:all,datasets:[{label:'Last month',data:all.map(c=>K.ps[c]||0),backgroundColor:'#94a3b8'},{label:'This month',data:all.map(c=>K.cs[c]||0),backgroundColor:'#10b981'}]}}/></div>
+<div className="card"><h3>Key numbers</h3><div className="it sp"><span>Average daily spending</span><b>{money(K.exp/day)}</b></div><div className="it sp"><span>This month</span><b>{money(K.exp)}</b></div><div className="it sp"><span>Last month</span><b>{money(K.pe)}</b></div><h3 style={{marginTop:12}}>Top categories</h3>{top.length?top.map(([c,v])=><div key={c} className="it sp"><span>{CATS[c]} {c}</span><b>{money(v)}</b></div>):<div className="mu">No spending yet.</div>}</div></div>
+<div className="card"><h3>💡 Smart insights</h3>{ins.length?ins.map((x,i)=><div key={i} className="it"><span style={{fontSize:20}}>{x[0]}</span>{x[1]}</div>):<Empty i="🔮" t="Not enough data yet. Add a few transactions this month and last month to unlock insights."/>}</div>
+<div className="card"><div className="row sp"><h3>📄 Monthly summary — {new Date().toLocaleDateString(S.prefs.loc,{month:'long',year:'numeric'})}</h3><button className="btn o s np" onClick={rep}>🖨️ Print report</button></div><div className="mu">Income {money(K.inc)} · Expenses {money(K.exp)} · Savings {money(K.sav)} · {K.cur.length} transactions</div></div>
+<Afford/></div>}
+function Afford(){const{S,K,money}=use();const g=S.goals.reduce((s,x)=>s+x.saved,0),need=S.goals.filter(x=>x.saved<x.target).reduce((s,x)=>s+Math.min(x.target-x.saved,(x.target-x.saved)/Math.max(1,Math.ceil((new Date(x.deadline)-new Date())/2.6e9))),0);
+const bl=S.budgets.total?Math.max(0,S.budgets.total-K.exp):0;
+const[f,setF]=useState({n:'',p:'',b:Math.round(K.bal),r:Math.round(bl)}),[res,setRes]=useState(null);
+const run=()=>{const p=+f.p,b=+f.b,r=+f.r;if(!(p>0))return setRes({err:'Enter the item’s price (above ₹0).'});if(!(b>=0)||!(r>=0))return setRes({err:'Balance and budget cannot be negative.'});
+const free=Math.max(0,b-K.up30-need-(b===Math.round(K.bal)?g:0)),cap=Math.min(free,r);const lv=p<=cap*.75?0:p<=free?1:2;const surplus=Math.max(0,K.sav);
+setRes({lv,free,cap,m:surplus>0?Math.ceil((p-free)/surplus):null,p})};
+const T3=[['✅ Affordable within your budget',`${f.n||'This item'} fits: it uses ${res&&res.cap?Math.round(res.p/res.cap*100):0}% of your safe spending room of ${res&&money(res.cap)}.`],['⏳ Consider waiting and saving more',res&&`It’s possible with ${money(res.free)} free money, but it ${res.p>res.cap-0?'would stretch your budget':'leaves little cushion'}. ${res.m?`At your current savings pace, ~${res.m} month(s) to build a comfortable cushion.`:''}`],['🚫 Not recommended right now',res&&`Your free money after upcoming reminders (${money(K.up30)}) and goal commitments is only ${money(res.free)} — less than the price.`]];
+return <div className="card"><h3>🤔 Can I Afford It?</h3><div className="g g4"><label className="fl"><span>Item name</span><input value={f.n} onChange={e=>setF({...f,n:e.target.value})}/></label><label className="fl"><span>Price</span><input type="number" value={f.p} onChange={e=>setF({...f,p:e.target.value})}/></label><label className="fl"><span>Available balance</span><input type="number" value={f.b} onChange={e=>setF({...f,b:e.target.value})}/></label><label className="fl"><span>Budget remaining</span><input type="number" value={f.r} onChange={e=>setF({...f,r:e.target.value})}/></label></div>
+<button className="btn" onClick={run}>Check it</button><div className="mu" style={{marginTop:6}}>Free money = balance − reminders due in 30 days − savings-goal commitments.</div>
+{res&&(res.err?<div className="er" style={{marginTop:10}}>⚠️ {res.err}</div>:<div className="card" style={{marginTop:12,borderColor:['var(--em)','var(--am)','var(--rd)'][res.lv]}}><b>{T3[res.lv][0]}</b><p>{T3[res.lv][1]}</p></div>)}</div>}
+function Recur(){const{S,up,toast,money,dt,ask,setModal}=use();
+const form=r=>setModal({k:'form',p:{title:r?'Edit reminder':'New recurring reminder',init:r?{...r,amount:String(r.amount)}:{name:'',amount:'',freq:'monthly',due:addDays(today,7)},fields:()=>[{k:'name',l:'Payment name'},{k:'amount',l:'Amount',t:'number'},{k:'freq',l:'Frequency',o:['weekly','monthly','yearly']},{k:'due',l:'Next due date',t:'date'}],
+onSave:v=>{if(!v.name.trim())return'Enter a name.';const a=amtErr(v.amount);if(a)return a;if(!v.due)return'Pick a due date.';const n={...v,name:v.name.trim(),amount:+v.amount,paused:r?.paused||false,id:r?.id||'r'+Date.now()};up(s=>({...s,rec:r?s.rec.map(x=>x.id===r.id?n:x):[...s.rec,n]}));toast('Reminder saved 🔔')}}});
+return <div className="g"><div className="card" style={{background:'#10b98118'}}>ℹ️ These are <b>reminders only</b>. FundFlow doesn’t move money or process payments.</div><div><button className="btn" onClick={()=>form()}>+ New reminder</button></div>
+<div className="card">{S.rec.length?[...S.rec].sort((a,b)=>a.due.localeCompare(b.due)).map(r=><div key={r.id} className="it wr" style={{opacity:r.paused?.5:1}}><div className="ic">🔁</div><div style={{flex:1}}><b>{r.name}</b><div className="mu">{r.freq} · next due {dt(r.due)}{r.paused&&' · paused'}{!r.paused&&r.due<today&&' · overdue!'}</div></div><b>{money(r.amount)}</b><div className="row" style={{gap:4}}>{!r.paused&&<button className="btn s" onClick={()=>{up(s=>({...s,rec:s.rec.map(x=>x.id===r.id?{...x,due:adv(x.due,x.freq)}:x)}));toast('Marked done — next date set ✅')}}>Done</button>}<button className="btn o s" onClick={()=>up(s=>({...s,rec:s.rec.map(x=>x.id===r.id?{...x,paused:!x.paused}:x)}))}>{r.paused?'Resume':'Pause'}</button><button className="btn o s" onClick={()=>form(r)}>✏️</button><button className="btn o s" onClick={()=>ask(`Delete “${r.name}”?`,()=>{up(s=>({...s,rec:s.rec.filter(x=>x.id!==r.id)}));toast('Reminder deleted')})}>🗑️</button></div></div>):<Empty i="🔁" t="No recurring payments. Add rent, subscriptions or bills to get reminders."/>}</div></div>}
+function Settings(){const{S,pf,setS,toast,ask,setModal}=use();
+return <div className="g g2"><div className="card"><h3>Preferences</h3><label className="fl"><span>Theme</span><select value={S.prefs.theme} onChange={e=>pf({theme:e.target.value})}><option>light</option><option>dark</option></select></label><label className="fl"><span>Currency</span><select value={S.prefs.cur} onChange={e=>pf({cur:e.target.value})}><option value="INR">₹ Indian Rupee</option><option value="USD">$ US Dollar</option><option value="EUR">€ Euro</option></select></label><label className="fl"><span>Number & date format</span><select value={S.prefs.loc} onChange={e=>pf({loc:e.target.value})}><option value="en-IN">India (12/03/2026, 1,00,000)</option><option value="en-US">US (3/12/2026, 100,000)</option><option value="en-GB">UK</option></select></label><label className="fl"><span>Opening balance (before your first transaction)</span><input type="number" value={S.prefs.open} onChange={e=>pf({open:+e.target.value||0})}/></label></div>
+<div className="card"><h3>Your data 🔒</h3><p className="mu" style={{marginBottom:12}}>Stored only in this browser’s local storage. Never enter bank logins, UPI PINs or card numbers here. {S.prefs.demo?'You’re viewing demo sample data.':'You’re using your own data.'}</p><div className="g">
+<button className="btn o" onClick={()=>setModal({k:'exp',name:'fundflow-backup.json',text:JSON.stringify(S,null,2),mime:'application/json'})}>⬇️ Export all data (JSON)</button>
+<button className="btn o" onClick={()=>ask('Reload sample demo data? Your current data will be replaced.',()=>{setS(seed());toast('Demo data restored 🔄')})}>🔄 Reset demo data</button>
+<button className="btn r" onClick={()=>ask('Erase everything and start with a clean slate?',()=>{const s=seed();setS({...s,tx:[],goals:[],rec:[],budgets:{total:0,cat:{}},prefs:{...s.prefs,demo:false,open:0}});toast('Clean slate ready ✨')})}>🧹 Clear all & start fresh</button></div></div></div>}
+function Root(){return <App/>}
+ReactDOM.createRoot(document.getElementById('root')).render(<Root/>);
+</script></body></html>
